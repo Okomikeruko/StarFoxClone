@@ -4,12 +4,9 @@ using System.Collections;
 public class ShipMotionControl : MonoBehaviour {
 
 	[SerializeField]
-	private float Speed, Pitch = 1, Roll = 1;
+	private float Speed, acceleration, Pitch = 1, Roll = 1;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -18,11 +15,20 @@ public class ShipMotionControl : MonoBehaviour {
 //		rigidbody.rotation *= Quaternion.Euler(-Input.acceleration.z * Pitch, 0, -Input.acceleration.x * Roll);
 
 
+		Speed += acceleration * Time.deltaTime;
+
 		if( Input.GetMouseButtonDown (0))
 		{
 			// Fire
 		}
 	}
 
+	void OnCollisionEnter(Collision col)
+	{
+		if(col.relativeVelocity.magnitude > 15)
+		{
+			Application.LoadLevel (Application.loadedLevel);
+		}
+	}
 
 }

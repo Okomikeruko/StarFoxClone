@@ -47,7 +47,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\CameraFollow.cs" />
+     <Compile Include="Assets\DeleteTrack.cs" />
      <Compile Include="Assets\ShipMotionControl.cs" />
+     <Compile Include="Assets\SpawnNode.cs" />
+     <Compile Include="Assets\SpawnTrack.cs" />
      <None Include="Assets\KY_magicEffectsFree\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
