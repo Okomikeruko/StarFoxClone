@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SpawnTrack : MonoBehaviour {
 
-	public GameObject StraightTrack, ForkedTrack, rock;
+	public GameObject StraightTrack, ForkedTrack, rock, missile;
 	private GameObject trackChoice;
 
 	void OnTriggerEnter(Collider col){
@@ -30,15 +30,19 @@ public class SpawnTrack : MonoBehaviour {
 						Random.Range (0,359),
 						Random.Range (0,359),
 						Random.Range (0,359));
-					GameObject rockObject = Instantiate (rock, col.transform.position + randomPos, randomRot) as GameObject; 
+					Instantiate (rock, col.transform.position + randomPos, randomRot); 
+				}else if (Random.Range (0, 15) > 5){
+					Instantiate (missile, col.transform.position, col.transform.rotation);
 				}
 			}
 		}
 	}
 
 	void OnTriggerExit(Collider col){
-		if(col.name == "SpawnNode" ||
-		   col.name == "stone(Clone)"){
+		if(col.name == "DestroyNode" ||
+		   col.name == "stone" ||
+		   col.name == "stone(Clone)" ||
+		   col.name == "missile(Clone)"){
 			GameObject.Destroy(col.transform.root.gameObject);
 		}
 	}

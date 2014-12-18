@@ -4,19 +4,20 @@ using System.Collections;
 public class ShipMotionControl : MonoBehaviour {
 
 	[SerializeField]
-	private float Speed, acceleration, Pitch = 1, Roll = 1;
+	private float Speed, acceleration, Pitch = 1, Roll = 1, maxHealth = 150;
 	[SerializeField]
 	private ParticleSystem Destruction;
 	[SerializeField]
-	private GameObject Addons, PointLight, blasterFire;
+	public GameObject Addons, PointLight, blasterFire;
 
 	private MasterGUI masterGUI;
 	private Vector3 pos;
-	private bool alive;
 	private float x, z;
 
-	void Start(){
-		alive = true;
+	public float currentHealth { get; set; }
+
+	void Start() {
+		currentHealth = maxHealth;
 		masterGUI = GameObject.Find ("MasterGUI").GetComponent<MasterGUI>();
 		pos = transform.position;
 	#if UNITY_IPHONE
@@ -42,30 +43,35 @@ public class ShipMotionControl : MonoBehaviour {
 	#endif	
 		Speed += acceleration * Time.deltaTime;
 
-		if( Input.GetMouseButtonDown (0))
-		{
+		if( Input.GetMouseButtonDown (0)){
 			Fire();
 		}
+
+		if(currentHealth <= 0){
+			StartCoroutine(SelfDestruct());
+		}
+		masterGUI.health = currentHealth/maxHealth;
 	}
 
-	void OnCollisionEnter(Collision col)
-	{
-		GameObject.Find ("Shield").GetComponent<Sheild>().Hit();
+	void OnCollisionEnter(Collision col) {
+		if (col.transform.root.gameObject.tag == "Damage"){
+			currentHealth -= col.transform.root.gameObject.GetComponent<CollisionDamage>().collisionDamage;
+			if (col.transform.root.gameObject.GetComponent<health>() != null) {
+				col.transform.root.gameObject.GetComponent<health>().currentHealth = 0;
+			}
+		}
 
-		if(col.relativeVelocity.magnitude > 15)
-		{
-			StartCoroutine(SelfDestruct());
+		if (currentHealth > 0) {
+			GameObject.Find ("Shield").GetComponent<Sheild>().Hit();
 		}
 	}
 
-	void Fire()
-	{
+	void Fire() {
 		GameObject fire = Instantiate(blasterFire, transform.position + (transform.forward * 30), transform.rotation) as GameObject;
 		fire.rigidbody.velocity = transform.forward * Speed * 3;
 	}
 
-	IEnumerator SelfDestruct()
-	{
+	IEnumerator SelfDestruct() {
 		Speed = acceleration = 0;
 		rigidbody.angularVelocity = Vector3.zero;
 		GameObject.Find ("Main Camera").GetComponent<CameraFollow>().enabled = false;

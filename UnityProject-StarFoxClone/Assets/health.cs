@@ -7,7 +7,7 @@ public class health : MonoBehaviour {
 	public ParticleSystem destruction;
 
 	private bool dead = false;
-	private float currentHealth;
+	public float currentHealth;
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +29,10 @@ public class health : MonoBehaviour {
 		{
 			currentHealth -= col.gameObject.GetComponent<Weapon>().weaponDamage;
 			StartCoroutine (hitColor());
+		}
+		if (col.gameObject.tag == "Damage")
+		{
+			currentHealth = 0;
 		}
 	}
 
