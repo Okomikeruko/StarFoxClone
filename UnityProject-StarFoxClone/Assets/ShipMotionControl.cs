@@ -27,6 +27,9 @@ public class ShipMotionControl : MonoBehaviour {
 	}
 
 	void Update () {
+		if(currentHealth > maxHealth){
+			currentHealth = maxHealth;
+		}
 		masterGUI.distanceCovered += Vector3.Distance(pos, transform.position);
 		pos = transform.position;
 		rigidbody.velocity = transform.forward * Speed;

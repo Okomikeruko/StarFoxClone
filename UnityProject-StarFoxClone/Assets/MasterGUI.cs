@@ -3,18 +3,21 @@ using System.Collections;
 
 public class MasterGUI : MonoBehaviour {
 
-	public ButtonClass distance, healthbar;
+	public ButtonClass distance, healthbar, moneyCounter;
 	public float distanceCovered, health = 1;
+	public int money = 0;
 	public Material healthBarCut;
 
 	void Update()
 	{
 		distance.content.text = (distanceCovered/1000).ToString("F2") + " KM";
+		moneyCounter.content.text = money.ToString();
 		healthBarCut.SetFloat ("_Cutoff", Mathf.Lerp (1, 0, health));
 	}
 
 	void OnGUI(){
 		GUI.Button (distance.AnchoredRect(), distance.content, distance.style);
+		GUI.Button (moneyCounter.AnchoredRect(), moneyCounter.content, moneyCounter.style);
 		Graphics.DrawTexture (healthbar.AnchoredRect(), healthbar.content.image, healthBarCut);
 	}
 }

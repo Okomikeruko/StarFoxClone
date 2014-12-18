@@ -51,6 +51,7 @@
      <Compile Include="Assets\DeleteTrack.cs" />
      <Compile Include="Assets\MasterGUI.cs" />
      <Compile Include="Assets\MissileMotion.cs" />
+     <Compile Include="Assets\PickUp.cs" />
      <Compile Include="Assets\Sheild.cs" />
      <Compile Include="Assets\ShipMotionControl.cs" />
      <Compile Include="Assets\SimpleParticlePack\Scripts\ParticleTester.cs" />
