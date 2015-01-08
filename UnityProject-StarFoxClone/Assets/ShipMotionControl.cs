@@ -44,7 +44,7 @@ public class ShipMotionControl : MonoBehaviour {
 		y = Mathf.DeltaAngle(offset.eulerAngles.x, Input.gyro.attitude.eulerAngles.x) / 36;
 		z = Mathf.DeltaAngle(offset.eulerAngles.z, Input.gyro.attitude.eulerAngles.z) / 36;
 		
-		rigidbody.rotation *= Quaternion.Euler(x * Pitch, y * Yaw, z * Roll);
+		rigidbody.rotation *= Quaternion.Euler(x * Pitch, -y * Yaw, z * Roll);
 		
 		#endif	
 		Speed += acceleration * Time.deltaTime;
