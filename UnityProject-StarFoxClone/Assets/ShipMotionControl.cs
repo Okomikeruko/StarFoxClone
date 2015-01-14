@@ -33,7 +33,7 @@ public class ShipMotionControl : MonoBehaviour {
 		}
 		masterGUI.distanceCovered += Vector3.Distance(pos, transform.position);
 		pos = transform.position;
-		rigidbody.velocity = transform.forward * Speed;
+
 		
 		#if UNITY_EDITOR
 		rigidbody.rotation *= Quaternion.Euler(Input.GetAxis("Vertical") * Pitch, 0, -Input.GetAxis("Horizontal") * Roll);
@@ -44,8 +44,9 @@ public class ShipMotionControl : MonoBehaviour {
 		y = Mathf.DeltaAngle(offset.eulerAngles.x, Input.gyro.attitude.eulerAngles.x) / 36;
 		z = Mathf.DeltaAngle(offset.eulerAngles.z, Input.gyro.attitude.eulerAngles.z) / 36;
 		
-		rigidbody.rotation *= Quaternion.Euler(x * Pitch, -y * Yaw, z * Roll);
-		
+		rigidbody.rotation *= Quaternion.Euler(x * Pitch, 0, z * Roll); // -z * Yaw, z/2 * Roll);
+		rigidbody.velocity = (transform.forward * Speed) + (transform.right * -z * Speed);
+
 		#endif	
 		Speed += acceleration * Time.deltaTime;
 		
